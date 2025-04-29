@@ -1,5 +1,273 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# CSS Architecture and Style Guide
+
+## Overview
+
+Our CSS architecture follows a modular, scalable approach using CSS variables for consistent theming and design tokens. The system is built on three main files:
+
+1. `variables.css` - Global design tokens and variables
+2. `index.css` - Global styles and base components
+3. Component-specific CSS files
+
+## Variables System
+
+### Color System
+
+Our color system uses HSL with master variables and ratios for consistent color generation:
+
+```css
+/* Master Color Variables */
+--primary-hue: 210;
+--secondary-hue: 270;
+--accent-hue: 120;
+--neutral-hue: 0;
+--error-hue: 0;
+--warning-hue: 45;
+--success-hue: 160;
+
+/* Color Saturation */
+--color-saturation: 100%;
+--neutral-saturation: 0%;
+
+/* Lightness Ratios */
+--lightness-ratio-50: 1;
+--lightness-ratio-100: 0.98;
+--lightness-ratio-200: 0.92;
+--lightness-ratio-300: 0.82;
+--lightness-ratio-400: 0.71;
+--lightness-ratio-500: 0.61;
+--lightness-ratio-600: 0.51;
+--lightness-ratio-700: 0.41;
+--lightness-ratio-800: 0.31;
+--lightness-ratio-900: 0.20;
+```
+
+Each color has 10 variations (50-900) created by adjusting the lightness value while maintaining saturation.
+
+### Typography
+
+```css
+/* Font Families */
+--font-family-base: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+--font-family-mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+/* Font Sizes */
+--font-size-xs: 0.75rem;    /* 12px */
+--font-size-sm: 0.875rem;   /* 14px */
+--font-size-base: 1rem;     /* 16px */
+--font-size-lg: 1.125rem;   /* 18px */
+--font-size-xl: 1.25rem;    /* 20px */
+--font-size-2xl: 1.5rem;    /* 24px */
+--font-size-3xl: 1.875rem;  /* 30px */
+--font-size-4xl: 2.25rem;   /* 36px */
+
+/* Font Weights */
+--font-weight-light: 300;
+--font-weight-normal: 400;
+--font-weight-medium: 500;
+--font-weight-semibold: 600;
+--font-weight-bold: 700;
+
+/* Line Heights */
+--line-height-none: 1;
+--line-height-tight: 1.25;
+--line-height-base: 1.5;
+```
+
+### Spacing
+
+```css
+--spacing-0: 0;
+--spacing-1: 0.25rem;   /* 4px */
+--spacing-2: 0.5rem;    /* 8px */
+--spacing-3: 0.75rem;   /* 12px */
+--spacing-4: 1rem;      /* 16px */
+--spacing-5: 1.25rem;   /* 20px */
+--spacing-6: 1.5rem;    /* 24px */
+--spacing-8: 2rem;      /* 32px */
+--spacing-10: 2.5rem;   /* 40px */
+--spacing-12: 3rem;     /* 48px */
+--spacing-16: 4rem;     /* 64px */
+--spacing-20: 5rem;     /* 80px */
+--spacing-24: 6rem;     /* 96px */
+```
+
+### Other Design Tokens
+
+```css
+/* Border Radius */
+--radius-sm: 0.25rem;
+--radius-md: 0.375rem;
+--radius-lg: 0.5rem;
+--radius-xl: 0.75rem;
+--radius-2xl: 1rem;
+--radius-full: 9999px;
+
+/* Shadows */
+--shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+--shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+--shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+/* Transitions */
+--transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+--transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+--transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+/* Container Widths */
+--container-sm: 640px;
+--container-md: 768px;
+--container-lg: 1024px;
+--container-xl: 1280px;
+--container-2xl: 1536px;
+```
+
+## Layout System
+
+### Container Usage
+
+```css
+.container {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: var(--spacing-4);
+}
+```
+
+### Grid System
+
+We use CSS Grid for layout. Example:
+
+```css
+.grid {
+  display: grid;
+  gap: var(--spacing-4);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+```
+
+### Flexbox Utilities
+
+```css
+.flex {
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+```
+
+## Component Styling
+
+### Base Components
+
+Base components are defined in `index.css`:
+
+```css
+/* Buttons */
+button {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  transition: var(--transition-normal);
+  line-height: var(--line-height-none);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--neutral-900);
+  margin-bottom: var(--spacing-4);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+p {
+  color: var(--neutral-700);
+  line-height: var(--line-height-base);
+  margin-bottom: var(--spacing-4);
+  font-size: var(--font-size-base);
+}
+```
+
+### Component-Specific Styles
+
+Component styles should:
+1. Be scoped to the component
+2. Use global variables
+3. Follow BEM naming convention
+4. Be placed in the component's directory
+
+Example:
+```css
+.component {
+  border: 1px solid var(--neutral-200);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+}
+
+.component__title {
+  color: var(--primary-600);
+  font-size: var(--font-size-xl);
+}
+```
+
+## Best Practices
+
+1. **Use Variables**: Always use CSS variables instead of hardcoded values
+2. **Consistent Spacing**: Use the spacing scale for margins and padding
+3. **Color Usage**: Use semantic color variables (e.g., `--primary-600` instead of hex codes)
+4. **Typography**: Use the typography scale for consistent text sizing
+5. **Responsive Design**: Use container widths and media queries for responsive layouts
+6. **Component Scoping**: Keep component styles scoped and modular
+7. **Performance**: Minimize the use of complex selectors and nesting
+
+## Media Queries
+
+Use container-based breakpoints:
+
+```css
+@media (min-width: var(--container-sm)) {
+  /* Small screens */
+}
+
+@media (min-width: var(--container-md)) {
+  /* Medium screens */
+}
+
+@media (min-width: var(--container-lg)) {
+  /* Large screens */
+}
+```
+
+## Accessibility
+
+1. **Color Contrast**: Use appropriate color combinations for readability
+2. **Focus States**: Always style focus states for interactive elements
+3. **Font Sizes**: Use relative units (rem) for font sizes
+4. **Spacing**: Use consistent spacing for visual hierarchy
+5. **Motion**: Respect reduced motion preferences
+
+## Debugging
+
+1. Use browser dev tools to inspect computed styles
+2. Check for variable inheritance issues
+3. Verify responsive behavior
+4. Test accessibility with browser tools
+5. Check color contrast ratios

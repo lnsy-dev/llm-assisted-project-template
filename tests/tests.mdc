@@ -1,0 +1,198 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Testing Framework Guidelines
+
+## Directory Structure
+
+```
+tests/
+├── unit/                  # Unit tests using Bun test runner
+│   ├── components/       # Component unit tests
+│   ├── api/             # API unit tests
+│   └── utils/           # Utility function tests
+├── e2e/                  # End-to-end tests using Playwright
+│   ├── components/      # Component E2E tests
+│   ├── flows/          # User flow tests
+│   └── api/            # API integration tests
+├── __fixtures__/        # Test fixtures and mock data
+│   └── test-results/   # Test execution results
+├── __mocks__/           # Mock implementations
+└── setup/               # Test setup files
+    ├── unit.setup.ts   # Unit test setup
+    └── e2e.setup.ts    # E2E test setup
+```
+
+## Test Types
+
+### Unit Tests (Bun Test Runner)
+
+Unit tests focus on testing individual components and functions in isolation. They use JSDOM for browser environment simulation.
+
+```javascript
+import { expect, test, describe } from 'bun:test';
+import { JSDOM } from 'jsdom';
+
+describe('ComponentName', () => {
+  beforeEach(() => {
+    // Setup test environment
+  });
+
+  test('should behave in a specific way', () => {
+    // Test implementation
+  });
+});
+```
+
+### E2E Tests (Playwright)
+
+E2E tests verify the application works correctly from a user's perspective.
+
+```javascript
+import { test, expect } from '@playwright/test';
+
+test.describe('Feature', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('http://localhost:5454');
+  });
+
+  test('completes a user flow', async ({ page }) => {
+    // Test implementation
+  });
+});
+```
+
+## Running Tests
+
+### Unit Tests
+```bash
+# Run all unit tests
+bun test tests/unit
+
+# Run specific test file
+bun test tests/unit/components/modal-component.test.js
+
+# Run tests in watch mode
+bun test --watch tests/unit
+```
+
+### E2E Tests
+```bash
+# Run all E2E tests
+bun playwright test
+
+# Run specific E2E test file
+bun playwright test tests/e2e/components/modal.spec.ts
+
+# Run tests with UI
+bun playwright test --ui
+```
+
+## Test File Naming Conventions
+
+- Unit Tests: `*.test.js` or `*.test.ts`
+- E2E Tests: `*.spec.ts`
+- Test Setup: `*.setup.ts`
+- Test Fixtures: `*.fixture.js`
+- Test Mocks: `*.mock.js`
+
+## Component Testing Strategy
+
+### Unit Tests
+Test component functionality in isolation:
+- Custom element registration
+- Attribute changes
+- Event handling
+- State management
+- Method calls
+
+```javascript
+test('component reacts to attribute changes', () => {
+  const element = document.createElement('custom-element');
+  element.setAttribute('value', 'test');
+  expect(element.value).toBe('test');
+});
+```
+
+### E2E Tests
+Test component behavior in the browser:
+- Rendering
+- User interactions
+- Visual appearance
+- Integration with other components
+
+```javascript
+test('component handles user interaction', async ({ page }) => {
+  await page.click('[data-testid="button"]');
+  await expect(page.locator('.result')).toBeVisible();
+});
+```
+
+## API Testing Strategy
+
+### Unit Tests
+Test API endpoints in isolation:
+- Request handling
+- Response formatting
+- Error handling
+- Data validation
+
+### E2E Tests
+Test API integration:
+- Full request/response cycle
+- Error scenarios
+- Data persistence
+- Authentication/Authorization
+
+## Best Practices
+
+1. **Test Independence**
+   - Each test should be independent
+   - Clean up after each test
+   - Don't rely on test execution order
+
+2. **Test Organization**
+   - Group related tests using `describe`
+   - Use clear, descriptive test names
+   - Follow AAA pattern (Arrange, Act, Assert)
+
+3. **Mocking**
+   - Mock external dependencies
+   - Use `__mocks__` directory for mock implementations
+   - Keep mocks simple and focused
+
+4. **Fixtures**
+   - Store test data in `__fixtures__` directory
+   - Use meaningful fixture names
+   - Keep fixtures maintainable
+
+5. **Coverage**
+   - Aim for high test coverage
+   - Focus on critical paths
+   - Test edge cases and error scenarios
+
+## Test Results
+
+Test results are stored in `tests/__fixtures__/test-results/`:
+- Unit test results
+- E2E test results
+- Coverage reports
+- Test execution logs
+
+## Continuous Integration
+
+Tests are automatically run in CI:
+```yaml
+jobs:
+  test:
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: bun install
+      - name: Run unit tests
+        run: bun test
+      - name: Run E2E tests
+        run: bun playwright test
+```

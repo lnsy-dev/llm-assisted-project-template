@@ -1,4 +1,9 @@
 class ModalComponent extends HTMLElement {
+  constructor() {
+    super();
+    this.initialized = false;
+  }
+
   connectedCallback() {
     if (!this.initialized) {
       this.initialized = true;
@@ -79,15 +84,22 @@ class ModalComponent extends HTMLElement {
 
   show() {
     const dialog = this.querySelector('dialog');
-    dialog.showModal();
-    this.setAttribute('open', 'true');
+    if (dialog) {
+      dialog.showModal();
+      this.setAttribute('open', 'true');
+    }
   }
 
   close() {
     const dialog = this.querySelector('dialog');
-    dialog.close();
-    this.removeAttribute('open');
+    if (dialog) {
+      dialog.close();
+      this.removeAttribute('open');
+    }
   }
 }
 
-customElements.define('modal-component', ModalComponent); 
+// Define the custom element
+if (!customElements.get('modal-component')) {
+  customElements.define('modal-component', ModalComponent);
+} 

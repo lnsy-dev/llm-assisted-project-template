@@ -1,6 +1,6 @@
 ---
 description: 
-globs: *test*
+globs: *test*,*spec*
 alwaysApply: false
 ---
 # Testing Framework Guidelines

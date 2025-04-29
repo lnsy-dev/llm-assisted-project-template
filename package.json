@@ -4,7 +4,13 @@
   "type": "module",
   "scripts": {
     "start": "bun server.js",
-    "dev": "bun --watch server.js"
+    "dev": "bun --watch server.js",
+    "test": "bun test:unit && bun test:e2e",
+    "test:unit": "bun test tests/unit/*.test.js tests/unit/*.spec.ts --preload ./tests/setup/unit.setup.ts",
+    "test:unit:watch": "bun test tests/unit/*.test.js tests/unit/*.spec.ts --preload ./tests/setup/unit.setup.ts --watch",
+    "test:e2e": "bun playwright test",
+    "test:e2e:ui": "bun playwright test --ui",
+    "test:e2e:debug": "bun playwright test --debug"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
