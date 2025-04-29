@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Server Management Rules
+
+## Auto-Reload Behavior
+
+1. **No Manual Server Restarts Required**
+   - The development server automatically reloads when changes are detected
+   - Do not manually start or restart the server
+   - All file changes trigger automatic reloading
+
+2. **Server Configuration**
+   - Server runs on port 5454 by default
+   - Configuration changes are applied automatically
+   - WebSocket connections are automatically managed
+
+3. **Development Workflow**
+   - Continue making changes to files as needed
+   - Server will detect and apply changes in real-time
+   - No need to run `bun run server.js` or similar commands
+
+4. **Debugging**
+   - Server logs are available in real-time
+   - Errors will be displayed in the console automatically
+   - No need to restart server to see error messages
+
+5. **Best Practices**
+   - Always check console for current server status
+   - Let the auto-reload handle file changes
+   - Don't manually interfere with the running server process

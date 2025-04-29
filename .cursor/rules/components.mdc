@@ -1,0 +1,34 @@
+---
+description: 
+globs: components/**/*.js
+alwaysApply: false
+---
+We do not use shadow DOM. Do not use Shadow DOM. Do not include CSS inside our javascript -- use the components .css file for this. Do not import CSS from JS. 
+
+We use custom HTML components as much as possible. 
+
+The components look like:
+
+```js
+
+class ElementName extends HTMLElement {
+  connectedCallback(){
+  }
+
+  static get observedAttributes() {
+    return [];
+  }
+
+  attributeChangedCallback(name, old_value, new_value){
+    switch(name){
+      default:
+    }
+  }
+
+}
+
+customElements.define('ElementTagName', ElementName)
+
+```
+
+Please break up larger components into smaller components. And so, for instance, a modal should be its own component. A tab should be its own component. A set of dropdowns should be their own component.

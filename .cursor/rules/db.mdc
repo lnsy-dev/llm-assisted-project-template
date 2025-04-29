@@ -1,0 +1,26 @@
+---
+description: 
+globs: api/db.js
+alwaysApply: false
+---
+# Database Storage Rule
+
+All SQLite database files should be stored in the `db` directory at the root of the project. This includes:
+- Database files (*.db)
+- Database-related configuration files
+- Database migration files
+
+The path structure should be:
+```
+/db/
+  ├── databases/
+  │   ├── database1.db
+  │   ├── database2.db
+  │   └── ...
+  ├── migrations/
+  │   └── ...
+  └── config/
+      └── ...
+```
+
+This rule ensures consistent database file storage across the project and prevents database files from being scattered in different locations.

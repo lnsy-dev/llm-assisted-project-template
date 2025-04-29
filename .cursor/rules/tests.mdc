@@ -1,0 +1,290 @@
+---
+description: 
+globs: *test*
+alwaysApply: false
+---
+# Testing Framework Guidelines
+
+## Directory Structure
+
+All tests and test-related files should be organized in the `tests/` directory following this structure:
+
+```
+tests/
+├── __fixtures__/     # Test fixtures and mock data
+├── __mocks__/        # Mock implementations
+├── __snapshots__/    # Test snapshots
+├── server/           # Server-related tests
+├── api/              # API endpoint tests
+├── components/       # Component tests
+└── utils/            # Utility function tests
+```
+
+## Test File Naming
+
+Test files should follow these naming conventions:
+- `*.test.js` for JavaScript tests
+- `*.test.ts` for TypeScript tests
+- `*_test.js` for alternative JavaScript naming
+- `*_test.ts` for alternative TypeScript naming
+
+## Running Tests
+
+The project uses Bun's built-in test runner. Available commands:
+
+```bash
+# Run all tests
+bun test
+
+# Run tests in watch mode
+bun test --watch
+
+# Run specific test files
+bun test tests/server/server.test.js
+
+# Run tests matching a pattern
+bun test --test-name-pattern "smoke test"
+```
+
+## Test Structure
+
+Tests should follow this basic structure:
+
+```javascript
+import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'bun:test';
+
+describe('Component/Feature Name', () => {
+  // Setup
+  beforeAll(() => {
+    // Runs once before all tests
+  });
+
+  beforeEach(() => {
+    // Runs before each test
+  });
+
+  // Tests
+  it('should do something specific', () => {
+    expect(actual).toBe(expected);
+  });
+
+  // Cleanup
+  afterEach(() => {
+    // Runs after each test
+  });
+
+  afterAll(() => {
+    // Runs once after all tests
+  });
+});
+```
+
+## Testing Guidelines
+
+1. **Isolation**: Each test should be independent and not rely on the state of other tests
+2. **Descriptive Names**: Test names should clearly describe what is being tested
+3. **Single Responsibility**: Each test should verify one specific behavior
+4. **Clean Setup**: Use `beforeEach` and `afterEach` to maintain a clean test environment
+5. **Mock External Dependencies**: Use the `__mocks__` directory for mock implementations
+6. **Fixtures**: Store test data in the `__fixtures__` directory
+7. **Snapshots**: Use snapshot testing for UI components and complex objects
+
+## Available Assertions
+
+Bun's test runner supports Jest-compatible assertions:
+
+```javascript
+expect(value).toBe(expected);
+expect(value).toEqual(expected);
+expect(value).toMatchSnapshot();
+expect(value).toBeTruthy();
+expect(value).toBeFalsy();
+expect(value).toContain(expected);
+expect(value).toHaveLength(expected);
+```
+
+## Mocking
+
+Use Bun's built-in mocking capabilities:
+
+```javascript
+import { mock } from 'bun:test';
+
+const mockFunction = mock(() => {
+  // implementation
+});
+
+// Verify calls
+expect(mockFunction).toHaveBeenCalled();
+expect(mockFunction).toHaveBeenCalledTimes(1);
+expect(mockFunction).toHaveBeenCalledWith(arg1, arg2);
+```
+
+## Coverage
+
+To generate test coverage reports:
+
+```bash
+bun test --coverage
+```
+
+Coverage reports will be generated in the `coverage/` directory.
+
+## Best Practices
+
+1. **AAA Pattern**: Arrange, Act, Assert
+2. **Minimal Setup**: Only set up what's necessary for the test
+3. **Clear Expectations**: Each test should have clear pass/fail criteria
+4. **Avoid Test Interdependence**: Tests should not depend on each other
+5. **Use Descriptive Names**: Test names should be self-documenting
+6. **Keep Tests Fast**: Avoid unnecessary setup and teardown
+7. **Mock External Services**: Don't make real API calls in tests
+8. **Clean Up Resources**: Always clean up after tests complete
+
+## Continuous Integration
+
+Tests are automatically run in CI/CD pipelines. The test command is:
+
+```bash
+bun test
+```
+
+For CI environments, you can use additional flags:
+
+```bash
+# Run tests with coverage
+bun test --coverage
+
+# Generate JUnit XML reports
+bun test --reporter=junit --reporter-outfile=./bun.xml
+```
+
+
+
+## Writing Component Tests
+
+### Test File Structure
+
+Each component test file should follow this structure:
+
+```javascript
+const { test, expect } = require('@playwright/test');
+
+test.describe('Component Name', () => {
+  test.beforeEach(async ({ page }) => {
+    // Setup code for each test
+    await page.goto('http://localhost:3000');
+  });
+
+  test('should do something specific', async ({ page }) => {
+    // Arrange
+    const element = page.locator('[data-testid="element-id"]');
+    
+    // Act
+    await element.click();
+    
+    // Assert
+    await expect(element).toBeVisible();
+  });
+});
+```
+
+### Best Practices
+
+1. **Test Isolation**: Each test should be independent and not rely on the state of other tests
+2. **Data Test IDs**: Use `data-testid` attributes to select elements
+3. **AAA Pattern**: Follow Arrange-Act-Assert pattern
+4. **Descriptive Names**: Test names should clearly describe the behavior
+5. **Component Coverage**: Test all major interactions and states
+
+### Common Test Patterns
+
+#### Testing User Interactions
+
+```javascript
+test('should handle user input', async ({ page }) => {
+  const input = page.locator('[data-testid="input-field"]');
+  await input.fill('test value');
+  await expect(input).toHaveValue('test value');
+});
+```
+
+#### Testing Component State
+
+```javascript
+test('should update state correctly', async ({ page }) => {
+  const button = page.locator('[data-testid="toggle-button"]');
+  const content = page.locator('[data-testid="content"]');
+  
+  await button.click();
+  await expect(content).toBeVisible();
+  
+  await button.click();
+  await expect(content).not.toBeVisible();
+});
+```
+
+#### Testing API Integration
+
+```javascript
+test('should handle API responses', async ({ page }) => {
+  // Mock API response
+  await page.route('**/api/data', route => {
+    route.fulfill({
+      status: 200,
+      body: JSON.stringify({ data: 'mock' })
+    });
+  });
+  
+  const button = page.locator('[data-testid="fetch-button"]');
+  await button.click();
+  
+  const result = page.locator('[data-testid="result"]');
+  await expect(result).toContainText('mock');
+});
+```
+
+## Running Tests
+
+```bash
+# Run all tests
+bun test
+
+# Run tests in UI mode
+bun test:ui
+
+# Run tests in debug mode
+bun test:debug
+
+# Run tests in headed mode
+bun test:headed
+```
+
+## Test Coverage
+
+Each component should have tests covering:
+
+1. **Initial State**: Verify the component renders correctly
+2. **User Interactions**: Test all user-triggered events
+3. **State Changes**: Verify component state updates
+4. **Error Handling**: Test error states and recovery
+5. **Accessibility**: Verify keyboard navigation and ARIA attributes
+6. **Responsive Design**: Test different viewport sizes
+
+## Continuous Integration
+
+Tests are automatically run in CI/CD pipelines. The configuration includes:
+
+- Cross-browser testing (Chrome, Firefox, Safari)
+- Parallel test execution
+- Automatic retries for flaky tests
+- HTML test reports
+- Screenshot capture on failure
+
+## Debugging Tests
+
+1. Use `bun test:debug` to run tests in debug mode
+2. Use `bun test:ui` for the Playwright UI mode
+3. Add `await page.pause()` in tests to pause execution
+4. Use `test.slow()` for tests that need more time
+5. Check the HTML report for detailed failure information 

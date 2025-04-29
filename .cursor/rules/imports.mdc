@@ -1,0 +1,85 @@
+---
+description: 
+globs: index.html
+alwaysApply: false
+---
+# Component Import Rules
+
+## Core Principles
+
+1. All component imports MUST be managed through the central entry points:
+   - `index.js` for JavaScript modules
+   - `index.css` for stylesheets
+
+2. The `index.html` file should ONLY include:
+   ```html
+   <link rel="stylesheet" href="index.css">
+   <script src="index.js" type="module"></script>
+   ```
+
+## JavaScript Import Rules
+
+1. Component JavaScript files (`*.js`) must be imported in `index.js`:
+   ```javascript
+   import './components/component-name/component-name.js';
+   ```
+
+2. Follow this pattern for all components:
+   - Import statements should be at the top of `index.js`
+   - One import per line for clarity
+   - Use relative paths from the project root
+
+## CSS Import Rules
+
+1. Component stylesheets (`*.css`) must be imported in `index.css`:
+   ```css
+   @import './components/component-name/component-name.css';
+   ```
+
+2. Follow this pattern for all components:
+   - Import statements should be at the top of `index.css`
+   - One import per line for clarity
+   - Use relative paths from the project root
+
+## Prohibited Practices
+
+1. DO NOT import component scripts or stylesheets directly in `index.html`
+2. DO NOT use inline `<style>` tags in `index.html`
+3. DO NOT use inline `<script>` tags in `index.html` (except for the main `index.js` import)
+
+## Benefits
+
+- Centralized dependency management
+- Better caching and performance
+- Easier maintenance and debugging
+- Consistent loading order
+- Simplified build process
+
+## Example Structure
+
+```javascript
+// index.js
+import './components/header/header.js';
+import './components/footer/footer.js';
+import './components/sidebar/sidebar.js';
+```
+
+```css
+/* index.css */
+@import './components/header/header.css';
+@import './components/footer/footer.css';
+@import './components/sidebar/sidebar.css';
+```
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <script src="index.js" type="module"></script>
+</body>
+</html>
+```

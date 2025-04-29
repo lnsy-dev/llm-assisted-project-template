@@ -1,0 +1,1 @@
+Please run tests using the bun.sh test setup. Please boot the server on port 3636 using the port argument. Please reference .cursor/rules/tests.mdc 

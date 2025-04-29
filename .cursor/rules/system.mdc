@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Rules and Guidelines
+
+## Technology Stack
+- Bun.sh runtime environment
+- Vanilla JavaScript, CSS, and HTML
+- Bun.sh SQLite for database operations
+- We use ES6 imports instead of CS require. 
+ALWAYS USE ES6 IMPORTS
+
+We comment our code as much as possible. 
+
+We run our test server on port 3636 utilizing our --port argument.
+
+Every file in api/ should be executable from the command line as well as importable from another JS file.
+
+We utilize custom HTML Elements as much as possible. We try to have flat components whenever possible -- we try to avoid nested divs.

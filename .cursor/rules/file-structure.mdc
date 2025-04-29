@@ -1,0 +1,59 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project File Structure
+
+```
+├──.env                        # .env variables
+├──tests/                    # all tests
+├──settings/
+├──api/					   # Where all server side API files live
+├──db/                       # all db files
+├──index.html                # embeds all components
+├──index.css                 # imports all css from components
+├──index.js                  # imports all components     
+├──server.js                 # imports all *.server.* files found in the component
+├──routes.js  			   # Where all API endpoints are imported from the /components/{component-name}/{component-name}.server.js file
+├── components/     									# all components live here
+├── component-template/             # this is an example component
+    ├──component-template.css         # individual styles related to a component
+    ├──component-template.js          # custom html element
+    ├──component-template.server.js   # api calls for each component. 
+    ├──component-template.html    		# the isolated component for development
+    ├──component-template.md    			# component documentation and todos
+```
+
+## Directory Structure Details
+
+### Root Level Files
+- `.env`: Environment variables and configuration
+- `index.html`: Main HTML file that embeds all components
+- `index.css`: Global styles and component style imports
+- `index.js`: Main JavaScript file that imports all components
+- `server.js`: Server-side entry point
+- `routes.js`: API endpoint definitions
+
+### Main Directories
+- `tests/`: All test files
+- `settings/`: Project settings and configuration
+- `api/`: Server-side API implementations
+- `db/`: Database-related files and migrations
+- `components/`: All application components
+
+### Component Structure
+Each component follows this structure:
+- `{component-name}.css`: Component-specific styles
+- `{component-name}.js`: Custom HTML element implementation
+- `{component-name}.server.js`: Server-side API endpoints
+- `{component-name}.html`: Isolated component for development
+- `{component-name}.md`: Component documentation and todos
+
+## Component Development
+When creating a new component:
+1. Create a new directory in `components/` with the component name
+2. Follow the template structure from `component-template/`
+3. Implement the component following the test-first approach
+4. Document the component in the `.md` file
+5. Add necessary server endpoints in the `.server.js` file

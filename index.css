@@ -1,0 +1,153 @@
+@import './styles/variables.css';
+
+/* Import component styles */
+@import './components/component-template/component-template.css';
+@import './components/modal-component/modal-component.css';
+
+:root {
+  /* These variables are now defined in variables.css */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--neutral-50);
+  color: var(--neutral-900);
+  line-height: var(--line-height-base);
+}
+
+code {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+}
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.container {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: var(--spacing-4);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--neutral-900);
+  margin-bottom: var(--spacing-4);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+h1 {
+  font-size: var(--font-size-4xl);
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+}
+
+h4 {
+  font-size: var(--font-size-xl);
+}
+
+h5 {
+  font-size: var(--font-size-lg);
+}
+
+h6 {
+  font-size: var(--font-size-base);
+}
+
+p {
+  color: var(--neutral-700);
+  line-height: var(--line-height-base);
+  margin-bottom: var(--spacing-4);
+  font-size: var(--font-size-base);
+}
+
+/* Buttons */
+button {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  transition: var(--transition-normal);
+  line-height: var(--line-height-none);
+}
+
+button.primary {
+  background-color: var(--primary-600);
+  color: var(--neutral-50);
+}
+
+button.primary:hover {
+  background-color: var(--primary-700);
+}
+
+button.secondary {
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+}
+
+button.secondary:hover {
+  background-color: var(--neutral-300);
+}
+
+/* Tab Navigation Styles */
+tab-nav-menu {
+    display: block;
+}
+
+tab-nav-menu nav {
+    display: flex;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    background-color: var(--neutral-100);
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+tab-nav-menu a {
+    text-decoration: none;
+    color: var(--neutral-900);
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-md);
+    transition: var(--transition-normal);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+}
+
+tab-nav-menu a:hover {
+    background-color: var(--neutral-200);
+}
+
+tab-nav-menu a.active {
+    background-color: var(--primary-600);
+    color: var(--neutral-50);
+}
+
+tab-nav-body {
+    display: block;
+    padding: var(--spacing-4);
+}
+
+tab-nav-item {
+    display: none;
+    padding: var(--spacing-4);
+}
+
+tab-nav-item.active {
+    display: block;
+} 

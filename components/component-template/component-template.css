@@ -1,0 +1,23 @@
+.component-template {
+    border: 1px solid var(--neutral-200);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-md);
+    background-color: var(--neutral-50);
+    box-shadow: var(--shadow-sm);
+    margin: var(--spacing-4) 0;
+}
+
+.component-template h2 {
+    color: var(--primary-600);
+    margin-bottom: var(--spacing-4);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+}
+
+.component-template p {
+    color: var(--neutral-700);
+    line-height: var(--line-height-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+} 

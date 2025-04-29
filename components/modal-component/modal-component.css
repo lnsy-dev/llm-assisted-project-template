@@ -1,0 +1,65 @@
+modal-component dialog {
+  /* Reset */
+  border: none;
+  margin: 0;
+  
+  /* Positioning */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  /* Size constraints */
+  max-width: var(--container-md);
+  min-width: var(--container-sm);
+  max-height: 90vh;
+  
+  /* Visual styling */
+  border-radius: var(--radius-lg);
+  background-color: var(--neutral-50);
+  box-shadow: var(--shadow-xl);
+  
+  /* Animation */
+  transition: var(--transition-normal);
+}
+
+modal-component dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.5);
+  transition: var(--transition-normal);
+}
+
+modal-component .close-button {
+  /* Positioning */
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  
+  /* Reset */
+  background: none;
+  border: none;
+  
+  /* Visual styling */
+  color: var(--neutral-600);
+  font-size: var(--font-size-xl);
+  padding: var(--spacing-2);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  line-height: var(--line-height-none);
+  
+  /* Animation */
+  transition: var(--transition-fast);
+}
+
+modal-component .close-button:hover {
+  color: var(--neutral-900);
+  background-color: var(--neutral-100);
+}
+
+modal-component .close-button:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+modal-component .content {
+  padding: var(--spacing-6);
+} 
