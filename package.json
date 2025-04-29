@@ -2,10 +2,19 @@
   "name": "llm-assisted-project-template",
   "module": "index.js",
   "type": "module",
+  "scripts": {
+    "start": "bun server.js",
+    "dev": "bun --watch server.js"
+  },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/jsdom": "^21.1.7",
     "bun-types": "^1.2.11",
     "jsdom": "^26.1.0"
+  },
+  "dependencies": {
+    "connect-livereload": "^0.6.1",
+    "express": "^5.1.0",
+    "livereload": "^0.9.3"
   }
 }

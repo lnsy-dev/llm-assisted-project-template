@@ -1,33 +1,40 @@
-import { serve } from 'bun';
-import { file } from 'bun';
-import { dir } from 'bun';
+import express from 'express';
+import { createServer } from 'http';
 import { join } from 'path';
+import livereload from 'livereload';
+import connectLivereload from 'connect-livereload';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 // Import routes
-import routes from './routes';
+import routes from './routes.js';
 
-// Get port from command line argument or environment variable, default to 3000
-const PORT = process.argv[2] || process.env.PORT || 3000;
+// Get port from command line argument or environment variable, default to 5454
+const PORT = process.argv[2] || process.env.PORT || 5454;
 
-// Create the server
-const server = serve({
-  port: PORT,
-  async fetch(req) {
-    const url = new URL(req.url);
-    
-    // Handle API routes
-    if (url.pathname.startsWith('/api')) {
-      return handleApiRequest(req, url);
-    }
-    
-    // Serve static files
-    return handleStaticRequest(req, url);
-  },
+// Create Express app
+const app = express();
+
+// Set up livereload
+const liveReloadServer = livereload.createServer({
+  exts: ['html', 'css', 'js'],
+  delay: 1000
 });
 
-// API request handler
-async function handleApiRequest(req, url) {
-  const path = url.pathname.replace('/api', '');
+// Watch the entire project directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+liveReloadServer.watch(__dirname);
+
+// Add livereload middleware
+app.use(connectLivereload());
+
+// Serve static files from the root directory
+app.use(express.static(__dirname));
+
+// API routes
+app.use('/api', (req, res, next) => {
+  const path = req.path;
   const method = req.method;
   
   // Get the route handler from routes
@@ -35,58 +42,23 @@ async function handleApiRequest(req, url) {
   
   if (routeHandler) {
     try {
-      const body = req.method === 'POST' ? await req.json() : undefined;
-      return new Response(JSON.stringify(await routeHandler(body)), {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const body = req.method === 'POST' ? req.body : undefined;
+      routeHandler(body)
+        .then(result => res.json(result))
+        .catch(error => res.status(400).json({ error: 'Invalid request' }));
     } catch (error) {
-      return new Response(JSON.stringify({ error: 'Invalid request' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      res.status(400).json({ error: 'Invalid request' });
     }
+  } else {
+    res.status(404).json({ error: 'Not found' });
   }
-  
-  return new Response(JSON.stringify({ error: 'Not found' }), {
-    status: 404,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}
+});
 
-// Static file handler
-async function handleStaticRequest(req, url) {
-  const path = url.pathname === '/' ? '/index.html' : url.pathname;
-  const filePath = join(process.cwd(), path.slice(1));
-  
-  try {
-    const file = Bun.file(filePath);
-    if (await file.exists()) {
-      const contentType = getContentType(path);
-      return new Response(file, {
-        headers: { 'Content-Type': contentType }
-      });
-    }
-  } catch (error) {
-    console.error('Error serving static file:', error);
-  }
-  
-  return new Response('Not found', { status: 404 });
-}
+// Create HTTP server
+const server = createServer(app);
 
-// Helper function to determine content type
-function getContentType(path) {
-  const ext = path.split('.').pop()?.toLowerCase();
-  const types = {
-    'html': 'text/html',
-    'css': 'text/css',
-    'js': 'application/javascript',
-    'json': 'application/json',
-    'png': 'image/png',
-    'jpg': 'image/jpeg',
-    'jpeg': 'image/jpeg',
-    'gif': 'image/gif'
-  };
-  return types[ext] || 'text/plain';
-}
-
-console.log(`Server running on port ${PORT}`); 
+// Start the server
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log('Auto-reload enabled - changes will be automatically detected');
+}); 

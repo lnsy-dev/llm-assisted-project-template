@@ -4,6 +4,11 @@ class ModalComponent extends HTMLElement {
       this.initialized = true;
       this.render();
       this.setupEventListeners();
+      
+      // Check if modal should be open by default
+      if (this.hasAttribute('open')) {
+        this.show();
+      }
     }
   }
 
@@ -31,16 +36,21 @@ class ModalComponent extends HTMLElement {
     closeButton.setAttribute('aria-label', 'Close modal');
     closeButton.textContent = '×';
 
+    // Create a container for the existing content
     const content = document.createElement('div');
     content.className = 'content';
 
-    // Move existing children into the content div
+    // Move all existing children into the content div
     while (this.firstChild) {
       content.appendChild(this.firstChild);
     }
 
+    // Add the close button and content to the dialog
     dialog.appendChild(closeButton);
     dialog.appendChild(content);
+    
+    // Clear the component and add the dialog
+    this.innerHTML = '';
     this.appendChild(dialog);
   }
 

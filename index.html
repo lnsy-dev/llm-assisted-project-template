@@ -13,10 +13,97 @@
         <modal-component open><h1>Dataroom</h1>  </modal-component>
         <tab-nav-menu target="nav-tabs"></tab-nav-menu>
         <tab-nav-body id="nav-tabs">
-            <tab-nav-item name="search">Search</tab-nav-item>
-            <tab-nav-item name="index">Index</tab-nav-item>
-            <tab-nav-item name="projects">Projects</tab-nav-item>
-            <tab-nav-item name="settings">Settings</tab-nav-item>
+            <tab-nav-item name="search">
+                <div class="tab-content">
+                    <h2>Search</h2>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search across all documents..." class="search-input">
+                        <button class="search-button">Search</button>
+                    </div>
+                    <div class="search-results">
+                        <div class="result-item">
+                            <h3>Document Title 1</h3>
+                            <p>This is a sample search result with some relevant content...</p>
+                        </div>
+                        <div class="result-item">
+                            <h3>Document Title 2</h3>
+                            <p>Another search result with different content...</p>
+                        </div>
+                    </div>
+                </div>
+            </tab-nav-item>
+            <tab-nav-item name="index">
+                <div class="tab-content">
+                    <h2>Index</h2>
+                    <div class="index-stats">
+                        <div class="stat-card">
+                            <h3>Total Documents</h3>
+                            <p>1,234</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Indexed Words</h3>
+                            <p>45,678</p>
+                        </div>
+                    </div>
+                    <div class="index-list">
+                        <h3>Recent Documents</h3>
+                        <ul>
+                            <li>Document A - Last updated: 2 hours ago</li>
+                            <li>Document B - Last updated: 5 hours ago</li>
+                            <li>Document C - Last updated: 1 day ago</li>
+                        </ul>
+                    </div>
+                </div>
+            </tab-nav-item>
+            <tab-nav-item name="projects">
+                <div class="tab-content">
+                    <h2>Projects</h2>
+                    <div class="project-grid">
+                        <div class="project-card">
+                            <h3>Project Alpha</h3>
+                            <p>Status: In Progress</p>
+                            <p>Last updated: 3 days ago</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>Project Beta</h3>
+                            <p>Status: Completed</p>
+                            <p>Last updated: 1 week ago</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>Project Gamma</h3>
+                            <p>Status: Planning</p>
+                            <p>Last updated: 2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </tab-nav-item>
+            <tab-nav-item name="settings">
+                <div class="tab-content">
+                    <h2>Settings</h2>
+                    <div class="settings-section">
+                        <h3>General Settings</h3>
+                        <div class="setting-item">
+                            <label>Auto-save</label>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label>Dark Mode</label>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="setting-item">
+                            <label>Email Notifications</label>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label>Desktop Notifications</label>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                </div>
+            </tab-nav-item>
         </tab-nav-body>
     </div>
 </body>
